@@ -1,11 +1,5 @@
 const inquirer = require('inquirer');
 
-
-
-function main() {
-  inquirer.prompt(questions).then()
-}
-
 let roles = ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Accountant', 'Legal Team Lead', 'Lawayer'];
 let departments = ['Sales', 'Engineering', 'Finance', 'Legal'];
 
@@ -22,7 +16,7 @@ let questions = [{
   type: 'rawlist',
   message: 'What would you like to do?',
   choices: [
-    "View All Employees?",
+    "View All Employees",
     "View All Roles",
     "View All Deparments",
     "Add Employee",
@@ -101,5 +95,32 @@ let questions = [{
 },
 ]
 
-main();
+function main() {
+  inquirer.prompt(questions).then((answers) => {
+    
+    switch (answers.main) {
+      case "View All Employees":
+        break;
+      
+      case "View All Roles":
+        break;
+
+      case "View All Deparments":
+        break;
+      
+      case "Add Employee":
+        break;
+
+      case "Add Role":
+        break;
+
+      case "Add Department":
+        break;
+
+      case "Update Employee role":
+        break;
+
+    }
+  })
+}
 
