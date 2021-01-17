@@ -1,4 +1,6 @@
 const inquirer = require('inquirer');
+const { addEmployee } = require('./server');
+const db = require('./server');
 
 let roles = ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Accountant', 'Legal Team Lead', 'Lawayer'];
 let departments = ['Sales', 'Engineering', 'Finance', 'Legal'];
@@ -100,18 +102,26 @@ function main() {
     
     switch (answers.main) {
       case "View All Employees":
+        db.viewAllEmployees();
         break;
       
       case "View All Roles":
+        db.viewAllRoles();
         break;
 
       case "View All Deparments":
+        db.viewAllDepartments();
         break;
       
       case "Add Employee":
+        let index = roles.indexOf(answers.roleId) + 1;
+        db.addEmployee(answers, index);
         break;
 
       case "Add Role":
+        let roleIndex = departments.indexOf(answers.role_departmentId) +2;
+        console.log(departments);
+        db.addRole(answers, roleIndex);
         break;
 
       case "Add Department":
@@ -123,4 +133,6 @@ function main() {
     }
   })
 }
+
+main();
 

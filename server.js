@@ -1,4 +1,4 @@
-const inquirer = require('inquirer');
+
 const mysql = require('mysql');
 
 var connection = mysql.createConnection({
@@ -14,33 +14,67 @@ connection.connect((err) => {
   console.log("connected as id " + connection.threadId);
 });
 
-//view department, role or employee query
-connection.query('SELECT * FROM ?', [//insert inquirer variable], (err, res) => {
-  if (err) throw err;
+//Create DB class
+class DB {
 
-  console.table(res);
+viewAllEmployees() {
+  connection.query('SELECT * FROM employee', (err, res) => {
+    if (err) throw err;
 
-});
+    console.table(res);
 
-//view department, role or employee query
-connection.query('SELECT employee FROM cms_db WHERE ?', [//insert inquirer variable], (err, res) => {
-  if (err) throw err;
+    });
+  }
 
-  console.table(res);
+viewAllRoles() {
+  connection.query('SELECT * FROM role', (err, res) => {
+    if (err) throw err;
 
-});
+    console.table(res);
 
+    });
+  }
 
-// class DB {
+  viewAllDepartments() {
+    connection.query('SELECT * FROM deparment', (err, res) => {
+      if (err) throw err;
+  
+      console.table(res);
+  
+      });
+    }
 
-// viewDepartments() {
-//   query('SELECT * FROM department', (err, res) => {
-//     if (err) throw err;
+  addEmployee(answers, index) {
+    
+    connection.query('INSERT INTO employee SET ?', 
+    {
+     first_name: answers.firstName,
+     last_name: answers.lastName,
+     role_id: index
+    },
+    (err, res) => {
+      if (err) throw err;
+      console.log("Your employee was added!");
+      this.viewAllEmployees();
+      }
+    );
+  }
 
-//     console.table(res);
+  addRole(answers, roleIndex) {
+    
+    connection.query('INSERT INTO role SET ?', 
+    {
+     title: answers.roleTitle,
+     salary: answers.salary,
+     department_id: roleIndex
+    },
+    (err, res) => {
+      if (err) throw err;
+      console.log("Your role was added!");
+      this.viewAllRoles();
+      }
+    );
+  }
+}
 
-//     });
-//   }
-// }
-// let db = new DB;
-// db.viewDepartments;
+module.exports = new DB();
