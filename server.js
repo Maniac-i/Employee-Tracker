@@ -75,6 +75,39 @@ viewAllRoles() {
       }
     );
   }
+
+  addDepartment(answers) {
+    
+    connection.query('INSERT INTO department SET ?', 
+    {
+     name: answers.departmentName,
+    },
+    (err, res) => {
+      if (err) throw err;
+      console.log("Your department was added!");
+      this.viewAllDepartments();
+      }
+    );
+  }
+
+  updateEmployeeRole(answers, newRole) {
+    
+    connection.query('UPDATE employee SET ? WHERE ?', 
+    [
+      {
+        role_id: newRole
+      },
+      {
+        id: answers.employeeId
+      }
+    ],
+    (err, res) => {
+      if (err) throw err;
+      console.log("The employees role was updated!");
+      this.viewAllEmployees();
+      }
+    );
+  }
 }
 
 module.exports = new DB();

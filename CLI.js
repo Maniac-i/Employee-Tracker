@@ -83,9 +83,9 @@ let questions = [{
 },
 //Update Employee Role Questions
 {
-  name: "employeeName",
+  name: "employeeId",
   type: 'input',
-  message: 'What employee would you like to update?',
+  message: 'What is the ID of the employee you would like to update?',
   when: (answer) => answer.main === 'Update Employee role'
 },
 {
@@ -122,12 +122,17 @@ function main() {
         let roleIndex = departments.indexOf(answers.role_departmentId) +2;
         console.log(departments);
         db.addRole(answers, roleIndex);
+        roles.push(answers.roleTitle);
         break;
 
       case "Add Department":
+        db.addDepartment(answers);
+        departments.push(answers.departmentName);
         break;
 
       case "Update Employee role":
+        let newRole = roles.indexOf(answers.newRole) +1;
+        db.updateEmployeeRole(answers, newRole);
         break;
 
     }
