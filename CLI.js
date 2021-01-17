@@ -31,6 +31,7 @@ let questions = [{
     "Update Employee role"
   ]
 },
+//Add Employee Questions
 {
   name: "firstName",
   type: 'input',
@@ -51,11 +52,52 @@ let questions = [{
   when: (answer) => answer.main === 'Add Employee'
 },
 {
-  name: "deparmentId",
+  name: "employee_deparmentId",
   type: 'list',
-  message: 'What is the employees role?',
+  message: 'What Department is the Employee in?',
   choices: returnDepartments(),
   when: (answer) => answer.main === 'Add Employee'
+},
+//Add Role Questions
+{
+  name: "roleTitle",
+  type: 'input',
+  message: 'What is the roles title?',
+  when: (answer) => answer.main === 'Add Role'
+},
+{
+  name: "salary",
+  type: 'input',
+  message: 'What is the roles salary?',
+  when: (answer) => answer.main === 'Add Role'
+},
+{
+  name: "role_deparmentId",
+  type: 'list',
+  message: 'What Department is the Employee in?',
+  choices: returnDepartments(),
+  when: (answer) => answer.main === 'Add Role'
+},
+//Add Department Questions
+{
+  name: "departmentName",
+  type: 'input',
+  message: 'What is the Departments name?',
+  when: (answer) => answer.main === 'Add Department'
+},
+//Update Employee Role Questions
+{
+  name: "employeeName",
+  type: 'input',
+  message: 'What employee would you like to update?',
+  when: (answer) => answer.main === 'Update Employee role'
+},
+{
+  name: "newRole",
+  type: 'list',
+  message: 'What is the employees NEW role?',
+  choices: returnRoles(),
+  when: (answer) => answer.main === 'Update Employee role'
 },
 ]
 
