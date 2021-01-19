@@ -58,8 +58,8 @@ viewAllRoles(askAgain) {
         (err, res) => {
           if (err) throw err;
           console.log("Your employee was added!");
-          this.viewAllEmployees();
-          askAgain(connection);
+          this.viewAllEmployees(askAgain);
+          
         }
         );
     }
@@ -75,8 +75,8 @@ viewAllRoles(askAgain) {
         (err, res) => {
           if (err) throw err;
           console.log("Your role was added!");
-          this.viewAllRoles();
-          askAgain(connection);
+          this.viewAllRoles(askAgain);
+          
         }
       );
     }
@@ -91,8 +91,8 @@ viewAllRoles(askAgain) {
           if (err) throw err;
 
           console.log("Your department was added!");
-          this.viewAllDepartments();
-          askAgain(connection);
+          this.viewAllDepartments(askAgain);
+          
         }
         );
     }
@@ -111,8 +111,8 @@ viewAllRoles(askAgain) {
         (err, res) => {
           if (err) throw err;
           console.log("The employees role was updated!");
-          this.viewAllEmployees();
-          askAgain(connection);
+          this.viewAllEmployees(askAgain);
+          
         }
       );
     }
