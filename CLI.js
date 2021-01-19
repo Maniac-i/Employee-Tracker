@@ -104,52 +104,54 @@ let questions = [{
 
 function main() {
   inquirer.prompt(questions).then((answers) => {
-    
+
     switch (answers.main) {
       case "View All Employees":
-        return db.viewAllEmployees();
-        
-        
-      
+        return db.viewAllEmployees(askAgain);
+
       case "View All Roles":
-        db.viewAllRoles();
-        
-        break;
+        return db.viewAllRoles(askAgain);
 
       case "View All Deparments":
-        db.viewAllDepartments();
-        
-        break;
-      
+        return db.viewAllDepartments(askAgain);
+
       case "Add Employee":
         let index = roles.indexOf(answers.roleId) + 1;
-        db.addEmployee(answers, index);
-        
-        break;
+        return db.addEmployee(answers, index, askAgain);
 
       case "Add Role":
-        let roleIndex = departments.indexOf(answers.role_departmentId) +2;
-        db.addRole(answers, roleIndex);
+        let roleIndex = departments.indexOf(answers.role_departmentId) + 2;
         roles.push(answers.roleTitle);
-        
+        db.addRole(answers, roleIndex, askAgain);
         break;
 
       case "Add Department":
-        db.addDepartment(answers);
         departments.push(answers.departmentName);
-        
-        
-        break;
+        return db.addDepartment(answers, askAgain);
 
       case "Update Employee role":
-        let newRole = roles.indexOf(answers.newRole) +1;
-        db.updateEmployeeRole(answers, newRole);
-        
-        break;
-
+        let newRole = roles.indexOf(answers.newRole) + 1;
+        return db.updateEmployeeRole(answers, newRole, askAgain);
     }
-    
-  }).then(() => main())
+  })
+}
+
+let askAgain = (connection) => {
+  inquirer.prompt(
+    {
+      type: 'confirm',
+      name: "askAgain",
+      message: 'Would you like to do something else?',
+      default: true
+    }
+  ).then((answers) => {
+    if (answers.askAgain) {
+      main();
+    } else {
+      console.log("GOODBYE");
+      connection.end();
+    }
+  });
 }
 
 main();

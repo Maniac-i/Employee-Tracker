@@ -1,6 +1,5 @@
 
 const mysql = require('mysql');
-const { mainModule } = require('process');
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -18,98 +17,105 @@ connection.connect((err) => {
 //Create DB class
 class DB {
 
-viewAllEmployees() {
-  connection.query('SELECT * FROM employee', (err, res) => {
-    if (err) throw err;
-
-    console.table(res);
-    
-    });
-  }
-
-viewAllRoles() {
-  connection.query('SELECT * FROM role', (err, res) => {
-    if (err) throw err;
-
-    console.table(res);
-
-    });
-  }
-
-  viewAllDepartments() {
-    connection.query('SELECT * FROM department', (err, res) => {
+  viewAllEmployees(askAgain) {
+    connection.query('SELECT * FROM employee', (err, res) => {
       if (err) throw err;
-  
+
       console.table(res);
+      askAgain(connection);
+    })
+  }
   
+viewAllRoles(askAgain) {
+      connection.query('SELECT * FROM role', (err, res) => {
+        if (err) throw err;
+
+        console.table(res);
+        askAgain(connection);
+
       });
     }
 
-  addEmployee(answers, index) {
-    
-    connection.query('INSERT INTO employee SET ?', 
-    {
-     first_name: answers.firstName,
-     last_name: answers.lastName,
-     role_id: index,
-     manager_id: answers.managerId || null
-    },
-    (err, res) => {
-      if (err) throw err;
-      console.log("Your employee was added!");
-      this.viewAllEmployees();
-      }
-    );
-  }
+  viewAllDepartments(askAgain) {
+      connection.query('SELECT * FROM department', (err, res) => {
+        if (err) throw err;
 
-  addRole(answers, roleIndex) {
-    
-    connection.query('INSERT INTO role SET ?', 
-    {
-     title: answers.roleTitle,
-     salary: answers.salary,
-     department_id: roleIndex
-    },
-    (err, res) => {
-      if (err) throw err;
-      console.log("Your role was added!");
-      this.viewAllRoles();
-      }
-    );
-  }
+        console.table(res);
+        askAgain(connection);
 
-  addDepartment(answers) {
-    
-    connection.query('INSERT INTO department SET ?', 
-    {
-     name: answers.departmentName,
-    },
-    (err, res) => {
-      if (err) throw err;
-      console.log("Your department was added!");
-      this.viewAllDepartments();
-      }
-    );
-  }
+      });
+    }
 
-  updateEmployeeRole(answers, newRole) {
-    
-    connection.query('UPDATE employee SET ? WHERE ?', 
-    [
-      {
-        role_id: newRole
-      },
-      {
-        id: answers.employeeId
-      }
-    ],
-    (err, res) => {
-      if (err) throw err;
-      console.log("The employees role was updated!");
-      this.viewAllEmployees();
-      }
-    );
-  }
+  addEmployee(answers, index, askAgain) {
+
+      connection.query('INSERT INTO employee SET ?',
+        {
+          first_name: answers.firstName,
+          last_name: answers.lastName,
+          role_id: index,
+          manager_id: parseInt(answers.managerId) || null
+        },
+        (err, res) => {
+          if (err) throw err;
+          console.log("Your employee was added!");
+          this.viewAllEmployees();
+          askAgain(connection);
+        }
+        );
+    }
+
+  addRole(answers, roleIndex, askAgain) {
+
+      connection.query('INSERT INTO role SET ?',
+        {
+          title: answers.roleTitle,
+          salary: answers.salary,
+          department_id: roleIndex
+        },
+        (err, res) => {
+          if (err) throw err;
+          console.log("Your role was added!");
+          this.viewAllRoles();
+          askAgain(connection);
+        }
+      );
+    }
+
+  addDepartment(answers, askAgain) {
+
+      connection.query('INSERT INTO department SET ?',
+        {
+          name: answers.departmentName,
+        },
+        (err, res,) => {
+          if (err) throw err;
+
+          console.log("Your department was added!");
+          this.viewAllDepartments();
+          askAgain(connection);
+        }
+        );
+    }
+
+  updateEmployeeRole(answers, newRole, askAgain) {
+
+      connection.query('UPDATE employee SET ? WHERE ?',
+        [
+          {
+            role_id: newRole
+          },
+          {
+            id: answers.employeeId
+          }
+        ],
+        (err, res) => {
+          if (err) throw err;
+          console.log("The employees role was updated!");
+          this.viewAllEmployees();
+          askAgain(connection);
+        }
+      );
+    }
 }
 
 module.exports = new DB();
