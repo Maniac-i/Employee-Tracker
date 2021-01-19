@@ -73,7 +73,7 @@ let questions = [{
   when: (answer) => answer.main === 'Add Role'
 },
 {
-  name: "role_deparmentId",
+  name: "role_departmentId",
   type: 'list',
   message: 'What Department is the Employee in?',
   choices: returnDepartments(),
@@ -120,7 +120,8 @@ function main() {
         return db.addEmployee(answers, index, askAgain);
 
       case "Add Role":
-        let roleIndex = departments.indexOf(answers.role_departmentId) + 2;
+        console.log(answers.role_departmentId)
+        let roleIndex = departments.indexOf(answers.role_departmentId) + 1;
         roles.push(answers.roleTitle);
         db.addRole(answers, roleIndex, askAgain);
         break;
