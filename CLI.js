@@ -1,6 +1,5 @@
 const inquirer = require('inquirer');
-const { addEmployee } = require('./server');
-const db = require('./server');
+const db = require('./index');
 
 let roles = ['Sales Lead', 'Salesperson', 'Lead Engineer', 'Software Engineer', 'Accountant', 'Legal Team Lead', 'Lawayer'];
 let departments = ['Sales', 'Engineering', 'Finance', 'Legal'];
@@ -38,6 +37,12 @@ let questions = [{
   name: "lastName",
   type: 'input',
   message: 'What is the employees last name?',
+  when: (answer) => answer.main === 'Add Employee'
+},
+{
+  name: "managerId",
+  type: 'input',
+  message: 'Does the employee have a manager? If so, what is the managers ID?',
   when: (answer) => answer.main === 'Add Employee'
 },
 {
@@ -102,41 +107,49 @@ function main() {
     
     switch (answers.main) {
       case "View All Employees":
-        db.viewAllEmployees();
-        break;
+        return db.viewAllEmployees();
+        
+        
       
       case "View All Roles":
         db.viewAllRoles();
+        
         break;
 
       case "View All Deparments":
         db.viewAllDepartments();
+        
         break;
       
       case "Add Employee":
         let index = roles.indexOf(answers.roleId) + 1;
         db.addEmployee(answers, index);
+        
         break;
 
       case "Add Role":
         let roleIndex = departments.indexOf(answers.role_departmentId) +2;
-        console.log(departments);
         db.addRole(answers, roleIndex);
         roles.push(answers.roleTitle);
+        
         break;
 
       case "Add Department":
         db.addDepartment(answers);
         departments.push(answers.departmentName);
+        
+        
         break;
 
       case "Update Employee role":
         let newRole = roles.indexOf(answers.newRole) +1;
         db.updateEmployeeRole(answers, newRole);
+        
         break;
 
     }
-  })
+    
+  }).then(() => main())
 }
 
 main();

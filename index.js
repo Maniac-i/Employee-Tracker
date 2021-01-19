@@ -1,5 +1,6 @@
 
 const mysql = require('mysql');
+const { mainModule } = require('process');
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -22,7 +23,7 @@ viewAllEmployees() {
     if (err) throw err;
 
     console.table(res);
-
+    
     });
   }
 
@@ -36,7 +37,7 @@ viewAllRoles() {
   }
 
   viewAllDepartments() {
-    connection.query('SELECT * FROM deparment', (err, res) => {
+    connection.query('SELECT * FROM department', (err, res) => {
       if (err) throw err;
   
       console.table(res);
@@ -50,7 +51,8 @@ viewAllRoles() {
     {
      first_name: answers.firstName,
      last_name: answers.lastName,
-     role_id: index
+     role_id: index,
+     manager_id: answers.managerId || null
     },
     (err, res) => {
       if (err) throw err;
