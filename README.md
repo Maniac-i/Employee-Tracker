@@ -22,7 +22,7 @@ To install this project, clone the repository. You will be required to initializ
 ## Usage
 Use the commandline command `node CLI.js` inside the cloned repositoy.
 
-Link to video walkthrough of application : https://drive.google.com/file/d/1ndGsLvgFS-fXpuUUD5Ncd7dioAGotJm5/view?usp=sharing
+Link to video walkthrough of application : https://drive.google.com/file/d/18aTr0AvQH0DHgdxEDliHsHAV1Zy9Vjno/view
 
 ---
 ## Questions 
